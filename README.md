@@ -93,8 +93,9 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
    The Flask app will run in the container and will be exposed to your local system on port 5000. Browse to [http://localhost:5000](http://localhost:5000/) or use "curl" from the command line and you will see "Hello, World!".
    ```bash
    $ curl localhost:5000
-   ```
+   
    Hello, World!
+   ```
 
 ## Create a container service
 
