@@ -34,7 +34,7 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
 
    Navigate to http://localhost:5000 in your browser. You should see "Hello, World!"
 
-   Note: This is a development configuration, in production you&#39;d serve this application using Gunicorn or some other app server.
+   Note: This is a development configuration, in production you'd serve this application using Gunicorn or some other app server.
 
 3. Create a new file, requirements.txt. Edit the file and add the following. Save the file.
    ```
@@ -102,7 +102,9 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
 1. Create a Lightsail container service with the [create-container-service](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/create-container-service.html) command.
    
    ```
-   $ aws lightsail create-container-service --service-name flask-service \ --power small --scale 1
+   $ aws lightsail create-container-service --service-name flask-service \
+   --power small \
+   --scale 1
    ```
    The power and scale parameters specify the capacity of the container service. For a minimal flask app, little capacity is required.
 
@@ -125,7 +127,9 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
 
 2. Push the application container to Lightsail with the [push-container-image](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/push-container-image.html) comand.
    ```
-   $ aws lightsail push-container-image --service-name flask-service --label flask-container --image flask-container
+   $ aws lightsail push-container-image --service-name flask-service \
+   --label flask-container\
+   --image flask-container
 
    ...
 
@@ -173,8 +177,7 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
 3. Deploy the container to the container service with the AWS CLI using the [create-container-service-deployment](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/create-container-service-deployment.html) command.
 
    ```
-   $ aws lightsail create-container-service-deployment \
-   --service-name flask-service \
+   $ aws lightsail create-container-service-deployment --service-name flask-service \
    --containers file://containers.json \
    --public-endpoint file://public-endpoint.json
    ```
