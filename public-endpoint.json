@@ -1,4 +1,4 @@
 {
-    "containerName": "lsc-flask",
+    "containerName": "flask",
     "containerPort": 5000
 }

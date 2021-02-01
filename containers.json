@@ -1,6 +1,6 @@
 {
-    "lsc-flask": {
-        "image": ":lsc-flask.lsc-flask.84",
+    "flask": {
+        "image": ":flask-service.flask-container.X",
         "ports": {
             "5000": "HTTP"
         }
