@@ -145,7 +145,7 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
            }
        }
    }
-
+   ```
    The containers.json file describes the settings of the containers that will be launched on the container service. In this instance, the containers.json file describes the flask container, the image it will use and the port it will expose.
 
 2. Create a new file, public-endpoint.json. Edit the file and add the following. Save the file.
