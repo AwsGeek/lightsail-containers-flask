@@ -17,7 +17,7 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
    app = Flask(__name__)
 
    @app.route("/")
-   def hello\_world():
+   def hello_world():
       return "Hello, World!"
 
    if __name__ == "__main__":
@@ -28,7 +28,7 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
 
    If you have Python installed, you can test this application locally:
 
-   ```bash
+   ```
    $ python app.py
    ```
 
@@ -69,7 +69,7 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
    The Python alpine image ensures the resulting container is as compact and small as possible. The command to run when the container starts is the same as if run from the command line: python app.py
 
    Your project directory should contain the following files:
-   ```bash
+   ```
    $ tree
    .
    ├── app.py
@@ -81,17 +81,17 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
 ## Build the container
 
    Build the container using Docker. Execute the following command from the same directory as the Dockerfile:
-   ```bash
+   ```
    $ docker build -t flask-container .
    ```
    This command builds a container using the Dockerfile in the current directory and tags the container "flask-container".
 
    Once the container build is done, test the Flask application locally by running the container:
-   ```bash
+   ```
    $ docker run -p 5000:5000 flask-container
    ```
    The Flask app will run in the container and will be exposed to your local system on port 5000. Browse to [http://localhost:5000](http://localhost:5000/) or use "curl" from the command line and you will see "Hello, World!".
-   ```bash
+   ```
    $ curl localhost:5000
    
    Hello, World!
@@ -101,7 +101,7 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
 
 1. Create a Lightsail container service with the [create-container-service](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/create-container-service.html) command.
    
-   ```bash
+   ```
    $ aws lightsail create-container-service --service-name flask-service \ --power small --scale 1
    ```
    The power and scale parameters specify the capacity of the container service. For a minimal flask app, little capacity is required.
@@ -117,15 +117,15 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
    
    Use the [get-container-services](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/get-container-services.html) command to monitor the state of the container as it is being created.
    
-   ```bash
+   ```
    $ aws lightsail get-container-services --service-name flask-service
    ```
    
    Wait until the container service state changes to "ACTIVE" before continuing to the next step.
 
 2. Push the application container to Lightsail with the [push-container-image](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/push-container-image.html) comand.
-   ```bash
-   $ aws lightsail push-container-image --service-name flask-service -- \ label flask-container --image flask-container
+   ```
+   $ aws lightsail push-container-image --service-name flask-service --label flask-container --image flask-container
 
    ...
 
@@ -159,7 +159,7 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
 
    After creating containers.json and public-endpoint.json files, your project directory should look like this:
 
-   ```bash
+   ```
    $ tree
    .
    ├── app.py
@@ -172,7 +172,7 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
    ```
 3. Deploy the container to the container service with the AWS CLI using the [create-container-service-deployment](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/create-container-service-deployment.html) command.
 
-   ```bash
+   ```
    $ aws lightsail create-container-service-deployment \
    --service-name flask-service \
    --containers file://containers.json \
@@ -187,10 +187,13 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
            "state": "DEPLOYING",
    ```
    Use the [get-container-services](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/get-container-services.html) command to monitor the state of the container until it changes to "RUNNING" before continuing to the next step.
-   '''bash
+   
+   ```
    $ aws lightsail get-container-services --service-name flask-service
-   '''
+   ```
+   
    The get-container-service command also returns the endpoint URL for container service.
+   
    ```
    {
        "containerServices": [{
@@ -207,7 +210,7 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
 ## Cleanup
 
 To cleanup and delete Lightsail resources, use the [delete-container-service](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/delete-container-service.html) command.
-```bash
+```
 $ aws lightsail delete-container-service --service-name flask-service
 ```
 The delete-container-service removes the container service, any associated container deployments, and container images.
