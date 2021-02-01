@@ -6,78 +6,78 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
 
 1. Create a new project directory and switch to that directory.
 
-```bash
-$ mkdir lightsail-containers-flask && cd lightsail-containers-flask
-```
+   ```bash
+   $ mkdir lightsail-containers-flask && cd lightsail-containers-flask
+   ```
 
-1. Create a new file, app.py, and paste the following code into the file. Save the file.
+2. Create a new file, app.py, and paste the following code into the file. Save the file.
 
-```python
-from flask import Flask
-app = Flask(__name__)
+   ```python
+   from flask import Flask
+   app = Flask(__name__)
 
-@app.route("/")
-def hello\_world():
-   return "Hello, World!"
+   @app.route("/")
+   def hello\_world():
+      return "Hello, World!"
 
-if __name__ == "__main__":
-   app.run(host="0.0.0.0", port=5000)
-```
+   if __name__ == "__main__":
+      app.run(host="0.0.0.0", port=5000)
+   ```
 
-This minimal Flask application contains a single function hello_world that is triggered when the route "/" is requested. When run, this application binds to all IPs on the system ("0.0.0.0") and listens on port 5000 (this is the default Flask port).
+   This minimal Flask application contains a single function hello_world that is triggered when the route "/" is requested. When run, this application binds to all IPs on the system ("0.0.0.0") and listens on port 5000 (this is the default Flask port).
 
-If you have Python installed, you can test this application locally:
+   If you have Python installed, you can test this application locally:
 
-```bash
-$ python app.py
-```
+   ```bash
+   $ python app.py
+   ```
 
-Navigate to http://localhost:5000 in your browser. You should see "Hello, World!"
+   Navigate to http://localhost:5000 in your browser. You should see "Hello, World!"
 
-Note: This is a development configuration, in production you&#39;d serve this application using Gunicorn or some other app server.
+   Note: This is a development configuration, in production you&#39;d serve this application using Gunicorn or some other app server.
 
-1. Create a new file, requirements.txt. Edit the file and add the following. Save the file.
-```
-flask===1.1.2
-```
-requirements.txt files are used to specifying what Python packages are required by the application. For this minimal Flask application there is only one required package, Flask.
+3. Create a new file, requirements.txt. Edit the file and add the following. Save the file.
+   ```
+   flask===1.1.2
+   ```
+   requirements.txt files are used to specifying what Python packages are required by the application. For this minimal Flask application there is only one required package, Flask.
 
-1. Create a new Dockerfile. Edit the file and add the following. Save the file.
+4. Create a new Dockerfile. Edit the file and add the following. Save the file.
 
-```
-# Set base image (host OS)
-FROM python:3.8-alpine
+   ```
+   # Set base image (host OS)
+   FROM python:3.8-alpine
 
-# By default, listen on port 5000
-EXPOSE 5000/tcp
+   # By default, listen on port 5000
+   EXPOSE 5000/tcp
 
-# Set the working directory in the container
-WORKDIR /app
+   # Set the working directory in the container
+   WORKDIR /app
 
-# Copy the dependencies file to the working directory
-COPY requirements.txt .
+   # Copy the dependencies file to the working directory
+   COPY requirements.txt .
 
-# Install any dependencies
-RUN pip install -r requirements.txt
+   # Install any dependencies
+   RUN pip install -r requirements.txt
 
-# Copy the content of the local src directory to the working directory
-COPY app.py .
+   # Copy the content of the local src directory to the working directory
+   COPY app.py .
 
-# Specify the command to run on container start
-CMD ["python", "./app.py"]
-```
-The Python alpine image ensures the resulting container is as compact and small as possible. The command to run when the container starts is the same as if run from the command line: python app.py
+   # Specify the command to run on container start
+   CMD ["python", "./app.py"]
+   ```
+   The Python alpine image ensures the resulting container is as compact and small as possible. The command to run when the container starts is the same as if run from the command line: python app.py
 
-Your project directory should contain the following files:
-```bash
-$ tree
-.
-├── app.py
-├── Dockerfile
-└── requirements.txt
+   Your project directory should contain the following files:
+   ```bash
+   $ tree
+   .
+   ├── app.py
+   ├── Dockerfile
+   └── requirements.txt
 
-0 directories, 3 files
-```
+   0 directories, 3 files
+   ```
 **Build the container.**
 
 1. Build the container using Docker. Execute the following command from the same directory as the Dockerfile:
