@@ -179,7 +179,7 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
    --public-endpoint file://public-endpoint.json
    ```
    The output of the create-container-servicedeployment command indicates that the state of the container service is now "DEPLOYING".
-   ```json
+   ```
    {
        "containerServices": [{
            "containerServiceName": "flask-service",
