@@ -1,8 +1,10 @@
 # How to Serve a Flask App with Amazon Lightsail Containers
 
-To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/billing/signup) and must install [Docker](https://docs.docker.com/engine/install/), the [AWS Command Line Interface (CLI) tool](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and the [Amazon Lightsail plugin](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-install-software) on your system. Follow the provided links if you don&#39;t have some of those.
+To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/billing/signup) and must install [Docker](https://docs.docker.com/engine/install/), the [AWS Command Line Interface (CLI) tool](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and the [Lightsail Control (lightsailctl) plugin](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-install-software) on your system. Follow the provided links if you don&#39;t have some of those.
 
 ## Create the application
+
+Complete the following steps on your local machine that is running Docker. These steps walk you through the process of creating the Flask application files.
 
 1. Create a new project directory and switch to that directory.
 
@@ -26,23 +28,13 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
 
    This minimal Flask application contains a single function hello_world that is triggered when the route "/" is requested. When run, this application binds to all IPs on the system ("0.0.0.0") and listens on port 5000 (this is the default Flask port).
 
-   If you have Python installed, you can test this application locally:
-
-   ```
-   $ python app.py
-   ```
-
-   Navigate to http://localhost:5000 in your browser. You should see "Hello, World!"
-
-   Note: This is a development configuration, in production you'd serve this application using Gunicorn or some other app server.
-
 3. Create a new file, requirements.txt. Edit the file and add the following. Save the file.
    ```
    flask===1.1.2
    ```
    requirements.txt files are used to specifying what Python packages are required by the application. For this minimal Flask application there is only one required package, Flask.
 
-4. Create a new Dockerfile. Edit the file and add the following. Save the file.
+4. Create a new file, Dockerfile. Edit the file and add the following. Save the file.
 
    ```
    # Set base image (host OS)
@@ -80,6 +72,8 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
    ```
 ## Build the container
 
+Complete the following steps to build and test the container image locally.
+
    Build the container using Docker. Execute the following command from the same directory as the Dockerfile:
    ```
    $ docker build -t flask-container .
@@ -90,7 +84,8 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
    ```
    $ docker run -p 5000:5000 flask-container
    ```
-   The Flask app will run in the container and will be exposed to your local system on port 5000. Browse to [http://localhost:5000](http://localhost:5000/) or use "curl" from the command line and you will see "Hello, World!".
+   The Flask app will run in the container and will be exposed to your local system on port 5000. Browse to http://localhost:5000 or use “curl” from the command line and you will see “Hello, World!”.
+   
    ```
    $ curl localhost:5000
    
@@ -98,6 +93,8 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
    ```
 
 ## Create a container service
+
+Complete the following steps to create the Lightsail container service using the AWS CLI, and then push your local container image to your new container service using the Lightsail control (lightsailctl) plugin.
 
 1. Create a Lightsail container service with the [create-container-service](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/create-container-service.html) command.
    
@@ -123,7 +120,7 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
    $ aws lightsail get-container-services --service-name flask-service
    ```
    
-   Wait until the container service state changes to "ACTIVE" before continuing to the next step.
+   Wait until the container service state changes to “ACTIVE” before continuing to the next step. Your container service should become active after a few minutes.
 
 2. Push the application container to Lightsail with the [push-container-image](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/push-container-image.html) comand.
    ```
@@ -135,9 +132,11 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
 
    Refer to this image as ":flask-service.flask-container.X" in deployments.
    ```
-   Note: the X in ":flask-service.flask-container.X" will be a numeric value. You will need this number in the next step.
+   Note: the X in ":flask-service.flask-container.X" will be a numeric value. If this is the first time you’ve pushed an image to your container service, this number will be 1. You will need this number in the next step.
 
 ## Deploy the container
+
+Complete the following steps to create deployment and public endpoint configuration JSON files, and then deploy your container image to your container service.
 
 1. Create a new file, containers.json. Edit the file and add the following. Replace the X in ":flask-service.flask-container.X" with the numeric value from the previous step. Save the file.
    ```
@@ -211,6 +210,8 @@ To get started, you&#39;ll need an [AWS account](https://portal.aws.amazon.com/b
    Congratulations. You have successfully deployed a containerized Flask application using Amazon Lightsail containers.
 
 ## Cleanup
+
+Complete the following steps to the Lightsail container service that you created as part of this tutorial.
 
 To cleanup and delete Lightsail resources, use the [delete-container-service](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/lightsail/delete-container-service.html) command.
 ```
